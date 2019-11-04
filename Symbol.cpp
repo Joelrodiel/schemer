@@ -6,6 +6,8 @@
 
 Function::Function(std::string param, std::string c) : Symbol("", "")
 {
+    m_type = "function";
+
     std::vector<std::string> param_tokens = tokenize(param, m_local_symbols, true, false);
 
     m_name = param_tokens[0];
