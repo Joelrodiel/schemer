@@ -10,8 +10,9 @@
 class Symbol
 {
     public:
-        Symbol(std::string n, std::string v) : m_name(n), m_var(v) {}
+        Symbol(std::string n, std::string v) : m_name(n), m_var(v) { m_type = "symbol"; }
 
+        std::string m_type;
         std::string m_name;
         std::string m_var;
 };
