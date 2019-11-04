@@ -26,7 +26,6 @@ class Function : public Symbol
 
         void execute(std::vector<Symbol*>& global_symbols, std::string code);
 
-        std::string m_name;
         std::string m_code;
         std::vector<std::string> m_parameters;
         std::vector<Symbol*> m_local_symbols;
