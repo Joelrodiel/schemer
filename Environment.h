@@ -5,6 +5,9 @@
 
 #include "interpreter.h"
 
+/**
+ * Environment class that runs main program & stores global symbols.
+ */
 class Environment
 {
     public:

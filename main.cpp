@@ -6,9 +6,9 @@
 int main(int argc, char *argv[])
 {
 
-    Environment main_env;
+    Environment main_env; // Create new environment
 
-    main_env.run();
+    main_env.run(); // Run it
     
-    return 0;
+    return 0; // Kill it
 }

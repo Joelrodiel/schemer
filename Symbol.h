@@ -4,6 +4,9 @@
 #include <vector>
 #include <string>
 
+/**
+ * Symbol class that stores symbol name & variable.
+ */
 class Symbol
 {
     public:
@@ -13,6 +16,9 @@ class Symbol
         std::string var;
 };
 
+/**
+ * Function class that stores function name, code & local symbols.
+ */
 class Function
 {
     public:
@@ -21,6 +27,7 @@ class Function
         std::string name;
         std::string code;
         std::vector<std::string> parameters;
+        std::vector<Symbol> local_symbols;
 };
 
 #endif
