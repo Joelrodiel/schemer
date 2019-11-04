@@ -40,20 +40,64 @@ inline static std::string run_instruction(std::vector<std::string>& tokens, std:
             return "Error";
         }
 
-        int symbolIndex = findSymbol(tokens[1], symbols); // Check if symbol exists.
 
-        // If symbol doesn't exist, create a new one.
-        // If symbol exists, then overwrite it.
-        if (symbolIndex == -1)
+        if (left.find('(') == std::string::npos)
         {
-            Symbol *s = new Symbol(tokens[1], tokens[2]);
-            symbols.push_back(s);
-            output = s->m_name;
+        
+            int symbolIndex = findSymbol(left, symbols); // Check if symbol exists.
+
+            Symbol *s = new Symbol(left, right);
+            
+            // If symbol doesn't exist, create a new one.
+            // If symbol exists, then overwrite it.
+            if (symbolIndex == -1)
+            {
+                symbols.push_back(s);
+                output = s->m_name;
+            }
+            else
+            {
+                if (symbols[symbolIndex]->m_type != "symbol")
+                {
+                    symbols[symbolIndex] = s;
+                }
+                else
+                {
+                    symbols[symbolIndex]->m_var = right;
+                    delete s;
+                }
+                
+                output = left;
+            }
         }
         else
         {
-            symbols[symbolIndex]->m_var = tokens[2];
-            output = tokens[1];
+
+            Function *f = new Function(left, right);
+            
+            int symbolIndex = findSymbol(f->m_name, symbols); // Check if symbol exists.
+
+            // If function doesn't exist, create a new one.
+            // If function exists, then overwrite it.
+            if (symbolIndex == -1)
+            {
+                symbols.push_back(f);
+                output = f->m_name;
+            }
+            else
+            {
+                output = f->m_name;
+
+                if (symbols[symbolIndex]->m_type != "function") {
+                    symbols[symbolIndex] = f;
+                }
+                else
+                {
+                    symbols[symbolIndex]->m_var = right;
+                    output = f->m_name;
+                    delete f;
+                }
+            }
         }
     }
     else if (tokens[0] == "eq?")

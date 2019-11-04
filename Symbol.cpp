@@ -15,7 +15,7 @@ Function::Function(std::string param, std::string c) : Symbol("", "")
     for (int i = 1; i < param_tokens.size(); i++)
         m_parameters.push_back(param_tokens[i]);
 
-    m_code = c;
+    m_var = c;
 }
 
 void Function::execute(std::vector<Symbol*>& global_symbols, std::string code)

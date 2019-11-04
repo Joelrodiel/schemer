@@ -32,7 +32,12 @@ int Environment::run()
             std::cout << "GLOBAL SYMBOLS:" << std::endl;
             for (int i = 0; i < global_symbols.size(); i++)
             {
-                std::cout << "I: " << i << " NAME: " << global_symbols[i]->m_name << " VAR: " << global_symbols[i]->m_var << std::endl;
+                std::cout << "I: " << i << " TYP: " << global_symbols[i]->m_type << " NAME: " << global_symbols[i]->m_name;
+                
+                if (global_symbols[i]->m_type == "symbol")
+                    std::cout << " VAR: " << global_symbols[i]->m_var << std::endl;
+                if (global_symbols[i]->m_type == "function")
+                    std::cout << " CODE: " << global_symbols[i]->m_var << std::endl;
             }
             input = "";
         }
