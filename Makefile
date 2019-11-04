@@ -1,4 +1,4 @@
-OBJS = main.cpp Environment.cpp
+OBJS = main.cpp Environment.cpp Symbol.cpp
 
 CC = g++
 
