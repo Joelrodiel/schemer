@@ -50,10 +50,20 @@ inline static std::string execute(std::vector<std::string> tokens, std::vector<S
             std::cout << "Error:\n\tNon-symbol: " << left << std::endl;
             return "Error";
         }
-            
-        Symbol *s = new Symbol(tokens[1], tokens[2]);
-        symbols.push_back(*s);
-        output = s->name;
+
+        int symbolIndex = findSymbol(tokens[1], symbols);
+        
+        if (symbolIndex == -1)
+        {
+            Symbol *s = new Symbol(tokens[1], tokens[2]);
+            symbols.push_back(*s);
+            output = s->name;
+        }
+        else
+        {
+            symbols[symbolIndex].var = tokens[2];
+            output = tokens[1];
+        }
     }
     else if (tokens[0] == "eq?")
         output = (left == right) ? "#t" : "#f";
