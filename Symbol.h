@@ -19,7 +19,7 @@ class Symbol
 /**
  * Function class that stores function name, code & local symbols.
  */
-class Function
+class Function : public Symbol
 {
     public:
         Function(std::string param, std::string c);

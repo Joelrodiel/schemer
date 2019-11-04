@@ -4,7 +4,7 @@
 #include "Symbol.h"
 #include "interpreter.h"
 
-Function::Function(std::string param, std::string c)
+Function::Function(std::string param, std::string c) : Symbol("", "")
 {
     std::vector<std::string> param_tokens = tokenize(param, m_local_symbols, true, false);
 
