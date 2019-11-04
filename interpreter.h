@@ -6,7 +6,7 @@
 
 #include "core.h"
 
-inline static std::vector<std::string> tokenize(std::string input, std::vector<Symbol>& symbols, bool literal, bool DEBUG);
+inline static std::vector<std::string> tokenize(std::string input, std::vector<Symbol*>& symbols, bool literal, bool DEBUG);
 
 /**
  * Execute Scheme code by evaluating tokens.
@@ -17,7 +17,7 @@ inline static std::vector<std::string> tokenize(std::string input, std::vector<S
  * @param debug Boolean to switch debug printing.
  * @return String of final output.
  */
-inline static std::string execute(std::vector<std::string> tokens, std::vector<Symbol>& symbols, bool silent, bool DEBUG)
+inline static std::string execute(std::vector<std::string> tokens, std::vector<Symbol*>& symbols, bool silent, bool DEBUG)
 {
     std::string left = (tokens.size() >= 2) ? tokens[1] : "0"; // If not enough tokens for left side, assume its 0.
     std::string right = (tokens.size() >= 3) ? tokens[2] : "0"; // If not enough tokens for right side, assume its 0.
@@ -28,7 +28,7 @@ inline static std::string execute(std::vector<std::string> tokens, std::vector<S
     {
         int symbI = findSymbol(left, symbols);
         if (symbI != -1)
-            left = symbols[symbI].m_var;
+            left = symbols[symbI]->m_var;
     }
 
     // If right side is not an integer or a define call expression, get symbol value
@@ -36,7 +36,7 @@ inline static std::string execute(std::vector<std::string> tokens, std::vector<S
     {
         int symbI = findSymbol(right, symbols);
         if (symbI != -1)
-            right = symbols[symbI].m_var;
+            right = symbols[symbI]->m_var;
     }
 
     // Get output with function from 'core.h'
@@ -76,7 +76,7 @@ inline static std::string execute(std::vector<std::string> tokens, std::vector<S
  * @param debug Boolean to switch debug printing.
  * @return Vector of string tokens.
  */
-inline static std::vector<std::string> tokenize(std::string input, std::vector<Symbol>& symbols, bool literal, bool DEBUG)
+inline static std::vector<std::string> tokenize(std::string input, std::vector<Symbol*>& symbols, bool literal, bool DEBUG)
 {
     const char *s = input.c_str(); // Convert input to C string to iterate through it
     std::vector<std::string> tokens; // Vector to store tokens

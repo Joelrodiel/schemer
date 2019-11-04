@@ -16,6 +16,6 @@ Function::Function(std::string param, std::string c) : Symbol("", "")
     m_code = c;
 }
 
-void Function::execute(std::vector<Symbol>& global_symbols, std::string code)
+void Function::execute(std::vector<Symbol*>& global_symbols, std::string code)
 {
 }

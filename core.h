@@ -9,10 +9,10 @@
  * @param tokens Vector of string tokens of Scheme code.
  * @param left Left side parameter.
  * @param right Right side parameter.
- * @param symbols Vector of Symbol objects.
+ * @param symbols Vector of Symbol object pointers.
  * @return String with instruction output.
  */
-inline static std::string run_instruction(std::vector<std::string>& tokens, std::string left, std::string right, std::vector<Symbol>& symbols)
+inline static std::string run_instruction(std::vector<std::string>& tokens, std::string left, std::string right, std::vector<Symbol*>& symbols)
 {
     std::string output;
 
@@ -47,12 +47,12 @@ inline static std::string run_instruction(std::vector<std::string>& tokens, std:
         if (symbolIndex == -1)
         {
             Symbol *s = new Symbol(tokens[1], tokens[2]);
-            symbols.push_back(*s);
+            symbols.push_back(s);
             output = s->m_name;
         }
         else
         {
-            symbols[symbolIndex].m_var = tokens[2];
+            symbols[symbolIndex]->m_var = tokens[2];
             output = tokens[1];
         }
     }
@@ -65,8 +65,8 @@ inline static std::string run_instruction(std::vector<std::string>& tokens, std:
         // Check if its an existing symbol, and output its value
         for (int i = 0; i < symbols.size(); i++)
         {
-            if (symbols[i].m_name == tokens[0])
-                output = symbols[i].m_var;
+            if (symbols[i]->m_name == tokens[0])
+                output = symbols[i]->m_var;
         }
 
         // If it's empty, just return the first token

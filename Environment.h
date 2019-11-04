@@ -14,7 +14,7 @@ class Environment
         int run();
 
     private:
-        std::vector<Symbol> global_symbols;
+        std::vector<Symbol*> global_symbols;
 
         bool DEBUG;
 };

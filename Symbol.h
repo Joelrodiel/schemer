@@ -24,12 +24,12 @@ class Function : public Symbol
     public:
         Function(std::string param, std::string c);
 
-        void execute(std::vector<Symbol>& global_symbols, std::string code);
+        void execute(std::vector<Symbol*>& global_symbols, std::string code);
 
         std::string m_name;
         std::string m_code;
         std::vector<std::string> m_parameters;
-        std::vector<Symbol> m_local_symbols;
+        std::vector<Symbol*> m_local_symbols;
 };
 
 #endif

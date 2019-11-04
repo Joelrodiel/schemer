@@ -29,14 +29,14 @@ inline static bool isSymbol(std::string s)
  * Might change it to normal forward iteration if someone yells at me.
  *
  * @param name Name of symbol you want to find.
- * @param symbols Reference of vector of Symbol objects to look from.
+ * @param symbols Reference of vector of Symbol object pointers to look from.
  * @return Index of symbol in symbols, if does not exist return -1.
  */
-inline static int findSymbol(std::string name, const std::vector<Symbol>& symbols)
+inline static int findSymbol(std::string name, const std::vector<Symbol*>& symbols)
 {
     for (int i = symbols.size(); i > 0; i--)
     {
-        if (symbols[i - 1].m_name == name)
+        if (symbols[i - 1]->m_name == name)
             return i - 1;
     }
     return -1;
