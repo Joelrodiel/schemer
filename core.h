@@ -33,7 +33,7 @@ inline static std::string run_instruction(std::vector<std::string>& tokens, std:
         output = (left != "#f") ? std::to_string(stoi(right)) : (tokens.size() >= 4) ? tokens[3] : "";
     else if (tokens[0] == "define")
     {
-        // If left (symbol name) is not a string, throw an error!
+        // If left (symbol.m_name) is not a string, throw an error!
         if (!isSymbol(left))
         {
             std::cout << "Error:\n\tNon-symbol: " << left << std::endl;
@@ -48,11 +48,11 @@ inline static std::string run_instruction(std::vector<std::string>& tokens, std:
         {
             Symbol *s = new Symbol(tokens[1], tokens[2]);
             symbols.push_back(*s);
-            output = s->name;
+            output = s->m_name;
         }
         else
         {
-            symbols[symbolIndex].var = tokens[2];
+            symbols[symbolIndex].m_var = tokens[2];
             output = tokens[1];
         }
     }
@@ -65,8 +65,8 @@ inline static std::string run_instruction(std::vector<std::string>& tokens, std:
         // Check if its an existing symbol, and output its value
         for (int i = 0; i < symbols.size(); i++)
         {
-            if (symbols[i].name == tokens[0])
-                output = symbols[i].var;
+            if (symbols[i].m_name == tokens[0])
+                output = symbols[i].m_var;
         }
 
         // If it's empty, just return the first token

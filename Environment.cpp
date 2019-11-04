@@ -32,7 +32,7 @@ int Environment::run()
             std::cout << "GLOBAL SYMBOLS:" << std::endl;
             for (int i = 0; i < global_symbols.size(); i++)
             {
-                std::cout << "I: " << i << " NAME: " << global_symbols[i].name << " VAR: " << global_symbols[i].var << std::endl;
+                std::cout << "I: " << i << " NAME: " << global_symbols[i].m_name << " VAR: " << global_symbols[i].m_var << std::endl;
             }
             input = "";
         }
@@ -41,7 +41,7 @@ int Environment::run()
         // Otherwise, execute the input as a single token.
         if (input.find('(') != std::string::npos)
         {
-            std::vector<std::string> tokens = tokenize(input, global_symbols, DEBUG);
+            std::vector<std::string> tokens = tokenize(input, global_symbols, false, DEBUG);
 
             if (DEBUG)
                 std::cout << "FINAL ANSWER: ";

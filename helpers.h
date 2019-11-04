@@ -36,7 +36,7 @@ inline static int findSymbol(std::string name, const std::vector<Symbol>& symbol
 {
     for (int i = symbols.size(); i > 0; i--)
     {
-        if (symbols[i - 1].name == name)
+        if (symbols[i - 1].m_name == name)
             return i - 1;
     }
     return -1;

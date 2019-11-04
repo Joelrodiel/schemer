@@ -28,7 +28,7 @@ inline static std::string execute(std::vector<std::string> tokens, std::vector<S
     {
         int symbI = findSymbol(left, symbols);
         if (symbI != -1)
-            left = symbols[symbI].var;
+            left = symbols[symbI].m_var;
     }
 
     // If right side is not an integer or a define call expression, get symbol value
@@ -36,7 +36,7 @@ inline static std::string execute(std::vector<std::string> tokens, std::vector<S
     {
         int symbI = findSymbol(right, symbols);
         if (symbI != -1)
-            right = symbols[symbI].var;
+            right = symbols[symbI].m_var;
     }
 
     // Get output with function from 'core.h'
