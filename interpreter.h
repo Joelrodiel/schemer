@@ -4,10 +4,9 @@
 #include <iostream>
 #include <vector>
 
-#include "helpers.h"
-#include "Symbol.h"
+#include "core.h"
 
-inline static std::vector<std::string> tokenize(std::string input, std::vector<Symbol>& symbols, bool DEBUG);
+inline static std::vector<std::string> tokenize(std::string input, std::vector<Symbol>& symbols, bool literal, bool DEBUG);
 
 /**
  * Execute Scheme code by evaluating tokens.
@@ -40,64 +39,9 @@ inline static std::string execute(std::vector<std::string> tokens, std::vector<S
             right = symbols[symbI].var;
     }
 
-    // Okay so this might not be the best way to do this... But it works.
-    if (tokens[0] == "+")
-        output = std::to_string(stoi(left) + stoi(right));
-    else if (tokens[0] == "-")
-        output = std::to_string(stoi(left) - stoi(right));
-    else if (tokens[0] == "*")
-        output = std::to_string(stoi(left) * stoi(right));
-    else if (tokens[0] == "=")
-        output = (left == right) ? "#t" : "#f";
-    else if (tokens[0] == "<")
-        output = (left < right) ? "#t" : "#f";
-    else if (tokens[0] == ">")
-        output = (left > right) ? "#t" : "#f";
-    else if (tokens[0] == "if")
-        output = (left != "#f") ? std::to_string(stoi(right)) : (tokens.size() >= 4) ? tokens[3] : "";
-    else if (tokens[0] == "define")
-    {
-        // If left (symbol name) is not a string, throw an error!
-        if (!isSymbol(left))
-        {
-            std::cout << "Error:\n\tNon-symbol: " << left << std::endl;
-            return "Error";
-        }
-
-        int symbolIndex = findSymbol(tokens[1], symbols); // Check if symbol exists.
-
-        // If symbol doesn't exist, create a new one.
-        // If symbol exists, then overwrite it.
-        if (symbolIndex == -1)
-        {
-            Symbol *s = new Symbol(tokens[1], tokens[2]);
-            symbols.push_back(*s);
-            output = s->name;
-        }
-        else
-        {
-            symbols[symbolIndex].var = tokens[2];
-            output = tokens[1];
-        }
-    }
-    else if (tokens[0] == "eq?")
-        output = (left == right) ? "#t" : "#f";
-    else if (tokens[0] == "print")
-        output = left;
-    else
-    {
-        // Check if its an existing symbol, and output its value
-        for (int i = 0; i < symbols.size(); i++)
-        {
-            if (symbols[i].name == tokens[0])
-                output = symbols[i].var;
-        }
-
-        // If it's empty, just return the first token
-        if (output.empty())
-            output = tokens[0];
-    }
-
+    // Get output with function from 'core.h'
+    output = run_instruction(tokens, left, right, symbols);
+    
     // If not silent, then console output the final output
     if (!silent)
         std::cout << output << std::endl;
@@ -128,15 +72,15 @@ inline static std::string execute(std::vector<std::string> tokens, std::vector<S
  *
  * @param input String of Scheme code to tokenize.
  * @param symbols Vector of Symbols.
+ * @param literal Boolean to deactivate token evalutation.
  * @param debug Boolean to switch debug printing.
  * @return Vector of string tokens.
  */
-inline static std::vector<std::string> tokenize(std::string input, std::vector<Symbol>& symbols, bool DEBUG)
+inline static std::vector<std::string> tokenize(std::string input, std::vector<Symbol>& symbols, bool literal, bool DEBUG)
 {
     const char *s = input.c_str(); // Convert input to C string to iterate through it
     std::vector<std::string> tokens; // Vector to store tokens
     std::string token; // String to store current token
-    bool function = false; // Hacky boolean for when it encounters a function
 
     s++;
 
@@ -182,13 +126,13 @@ inline static std::vector<std::string> tokenize(std::string input, std::vector<S
 
             // If first token is 'defined' & only one token has been found, then we can assume we are dealing with a function.
             // If the above holds true, or we have already found out, then dont evaluate 'temp' and just push it to tokens.
-            if (tokens[0] == "define" && tokens.size() < 2 || function)
+            if (tokens[0] == "define" && tokens.size() < 2 || literal)
             {
                 token = temp;
-                function = true;
+                literal = true; // Activate literal mode
             }
             else
-                token = execute(tokenize(temp, symbols, DEBUG), symbols, true, DEBUG); // Tokenize 'temp' & evaluate it with 'execute(tokens, symbols, DEBUG)'
+                token = execute(tokenize(temp, symbols, false, DEBUG), symbols, true, DEBUG); // Tokenize 'temp' & evaluate it with 'execute(tokens, symbols, DEBUG)'
 
             tokens.push_back(token);
 
