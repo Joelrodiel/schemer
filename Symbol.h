@@ -10,10 +10,10 @@
 class Symbol
 {
     public:
-        Symbol(std::string n, std::string v) : name(n), var(v) {}
+        Symbol(std::string n, std::string v) : m_name(n), m_var(v) {}
 
-        std::string name;
-        std::string var;
+        std::string m_name;
+        std::string m_var;
 };
 
 /**
@@ -24,10 +24,12 @@ class Function
     public:
         Function(std::string param, std::string c);
 
-        std::string name;
-        std::string code;
-        std::vector<std::string> parameters;
-        std::vector<Symbol> local_symbols;
+        void execute(std::vector<Symbol>& global_symbols, std::string code);
+
+        std::string m_name;
+        std::string m_code;
+        std::vector<std::string> m_parameters;
+        std::vector<Symbol> m_local_symbols;
 };
 
 #endif
